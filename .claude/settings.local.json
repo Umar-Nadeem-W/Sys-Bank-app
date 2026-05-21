@@ -14,7 +14,15 @@
       "Bash(npm run *)",
       "Bash(curl -s http://localhost:5173)",
       "mcp__Claude_Preview__preview_start",
-      "Bash(curl -s http://localhost:5001/api/dashboard/predictive)"
+      "Bash(curl -s http://localhost:5001/api/dashboard/predictive)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\umarn\\\\OneDrive\\\\Desktop\\\\Bank Model\" -Recurse -Force)",
+      "Bash(Select-Object FullName, Length)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(python predict_credit_score.py)",
+      "Bash(curl -s http://localhost:5002/api/dashboard/credit-score)",
+      "Bash(curl -s http://localhost:5003/api/dashboard/credit-score)",
+      "Bash(jupyter nbconvert *)",
+      "Bash(python -c ' *)"
     ]
   }
 }

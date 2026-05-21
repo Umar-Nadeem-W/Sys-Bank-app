@@ -1,0 +1,9 @@
+{
+  "creditScore": 603,
+  "rating": "Fair",
+  "maxScore": 850,
+  "minScore": 300,
+  "model": "Gradient Boosting Regressor",
+  "modelMAE": 139.03,
+  "modelR2": -0.0091
+}

@@ -1,3 +1,5 @@
+const path = require('path');
+const fs   = require('fs');
 const { monthlyExpenses, monthlySavings, expenseCategoryTotals, user, loan } = require('../models/dummyData');
 
 const getSummary = (req, res) => {
@@ -97,4 +99,13 @@ const getPredictivePlan = (req, res) => {
   });
 };
 
-module.exports = { getSummary, getMonthlyExpenses, getMonthlySavings, getExpenseCategoryTotals, getPredictivePlan };
+const getCreditScore = (req, res) => {
+  const jsonPath = path.join(__dirname, '..', 'data', 'credit_score.json');
+  if (!fs.existsSync(jsonPath)) {
+    return res.status(404).json({ error: 'Credit score not yet generated. Run predict_credit_score.py first.' });
+  }
+  const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+  res.json(data);
+};
+
+module.exports = { getSummary, getMonthlyExpenses, getMonthlySavings, getExpenseCategoryTotals, getPredictivePlan, getCreditScore };

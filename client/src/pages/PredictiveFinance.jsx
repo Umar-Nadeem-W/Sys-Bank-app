@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import CreditScoreGauge from '../components/CreditScoreGauge'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   Legend, ResponsiveContainer, Cell,
@@ -142,12 +143,17 @@ function SavingsProjectionCard({ plan }) {
 export default function PredictiveFinance() {
   const navigate = useNavigate()
   const [plan, setPlan] = useState(null)
+  const [creditScore, setCreditScore] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    axios.get('/api/dashboard/predictive')
-      .then(r => setPlan(r.data))
-      .catch(console.error)
+    Promise.all([
+      axios.get('/api/dashboard/predictive'),
+      axios.get('/api/dashboard/credit-score'),
+    ]).then(([p, cs]) => {
+      setPlan(p.data)
+      setCreditScore(cs.data)
+    }).catch(console.error)
       .finally(() => setLoading(false))
   }, [])
 
@@ -259,8 +265,16 @@ export default function PredictiveFinance() {
               </div>
             </div>
 
-            {/* Savings projection card */}
-            <SavingsProjectionCard plan={plan} />
+            {/* Right column: credit score + savings projection */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              <CreditScoreGauge
+                score={creditScore?.creditScore}
+                rating={creditScore?.rating}
+                mae={creditScore?.modelMAE}
+                r2={creditScore?.modelR2}
+              />
+              <SavingsProjectionCard plan={plan} />
+            </div>
 
           </div>
         )}
