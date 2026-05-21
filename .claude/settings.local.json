@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\umarn\\\\OneDrive\\\\Desktop\\\\Bank App\" -Recurse -File | Where-Object { $_.FullName -notmatch 'node_modules' } | Select-Object -ExpandProperty FullName)",
+      "Bash(node server/server.js)",
+      "Bash(curl -s http://localhost:5000/api/dashboard/summary)",
+      "Bash(python3 -m json.tool)",
+      "Bash(lsof -ti:5000)",
+      "Bash(node -e \"const net=require\\('net'\\);const s=net.createServer\\(\\);s.listen\\(5000,'0.0.0.0',\\(\\)=>{console.log\\('Port 5000 is free'\\);s.close\\(\\)}\\);s.on\\('error',e=>console.log\\('Port in use:',e.message\\)\\)\")",
+      "Bash(curl -s http://localhost:5001/api/dashboard/summary)",
+      "Bash(curl -s http://localhost:5001/api/dashboard/expense-categories)",
+      "Bash(curl -s http://localhost:5001/api/dashboard/monthly-savings)",
+      "Bash(curl -s http://localhost:5001/api/dashboard/monthly-expenses)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}
