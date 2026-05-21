@@ -9,5 +9,5 @@ app.use(express.json());
 
 app.use('/api/dashboard', dashboardRoutes);
 
-const PORT = 5001;
+const PORT = 5002;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

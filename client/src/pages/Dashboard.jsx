@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Header from '../components/Header'
 import StatCard from '../components/StatCard'
@@ -29,7 +30,15 @@ const ReceiptIcon = ({ color }) => (
   </svg>
 )
 
+const LoanIcon = ({ color }) => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" stroke={color} strokeWidth="2" />
+    <path d="M12 6v6l4 2" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+)
+
 export default function Dashboard() {
+  const navigate = useNavigate()
   const [summary, setSummary] = useState(null)
   const [monthlySavings, setMonthlySavings] = useState([])
   const [expenseCategories, setExpenseCategories] = useState([])
@@ -80,7 +89,7 @@ export default function Dashboard() {
         </div>
 
         {/* Stat cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 20, marginBottom: 24 }}>
           <StatCard
             label="Annual Income"
             value={PKR(summary?.monthlyIncome * 12)}
@@ -102,12 +111,59 @@ export default function Dashboard() {
             accent="#3b82f6"
             icon={<WalletIcon color="#3b82f6" />}
           />
+          <StatCard
+            label="Loan Paid"
+            value={PKR(summary?.loanPaid)}
+            sub={`${(((summary?.loanPaid ?? 0) / ((summary?.loanPaid ?? 0) + (summary?.loanRemaining ?? 1))) * 100).toFixed(1)}% of total loan`}
+            accent="#10b981"
+            icon={<LoanIcon color="#10b981" />}
+          />
+          <StatCard
+            label="Loan Remaining"
+            value={PKR(summary?.loanRemaining)}
+            sub={`PKR ${((summary?.loanRemaining ?? 0) / 12).toLocaleString(undefined, { maximumFractionDigits: 0 })} / month`}
+            accent="#f59e0b"
+            icon={<LoanIcon color="#f59e0b" />}
+          />
         </div>
 
         {/* Pie + Savings Bar */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 20, marginBottom: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 20, marginBottom: 32 }}>
           <ExpensePieChart data={expenseCategories} />
           <SavingsBarChart data={monthlySavings} />
+        </div>
+
+        {/* Predictive Finance CTA */}
+        <div style={{
+          display: 'flex', justifyContent: 'center', paddingBottom: 8,
+        }}>
+          <button
+            onClick={() => navigate('/predictive')}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              background: 'linear-gradient(135deg, #1a3a5c 0%, #0f2d4a 100%)',
+              border: '1px solid rgba(59,130,246,0.35)',
+              borderRadius: 12, color: '#f1f5f9',
+              padding: '14px 32px', cursor: 'pointer',
+              fontSize: 15, fontWeight: 600, letterSpacing: '-0.1px',
+              transition: 'all 0.2s',
+              boxShadow: '0 0 24px rgba(59,130,246,0.12)',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = 'rgba(59,130,246,0.6)'
+              e.currentTarget.style.boxShadow = '0 0 32px rgba(59,130,246,0.25)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = 'rgba(59,130,246,0.35)'
+              e.currentTarget.style.boxShadow = '0 0 24px rgba(59,130,246,0.12)'
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="#3b82f6" strokeWidth="2.5"
+                strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Predictive Finance
+          </button>
         </div>
 
       </main>

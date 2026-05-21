@@ -42,4 +42,9 @@ const user = {
   accountType: 'Premium Current Account',
 };
 
-module.exports = { monthlyExpenses, monthlySavings, expenseCategoryTotals, user };
+const loan = {
+  loanPaid: 480000,
+  loanRemaining: 720000,
+};
+
+module.exports = { monthlyExpenses, monthlySavings, expenseCategoryTotals, user, loan };
